@@ -1,3 +1,5 @@
+{% load staticfiles %}
 Based on the mutiple regression tests, we are 95% certain that this part will come 
-between {{ tmin }} and {{ tmax }} days, with an average of {{ tave }} days. <br>
-If this order is an ERF, it will take between {{ emin}} and {{ emax }} more days, with an average of {{ eave }}.
+between {{ tmin|floatformat:2 }} and {{ tmax|floatformat:2 }} days, with an average of {{ tave|floatformat:2 }} days. <br>
+If this order is an ERF, it will take between {{ emin|floatformat:2 }} and {{ emax|floatformat:2 }} more days, with an average of {{ eave|floatformat:2 }}.
+ <p> <img src="{% static plot.png %}">
