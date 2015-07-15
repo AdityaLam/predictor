@@ -38,6 +38,8 @@ def analyze(file_location):
     import statsmodels.api as sm
     import statsmodels.formula.api as smf
     from workdays import networkdays
+    import plotly.plotly as py
+    from plotly.graph_objs import *
 
     df_adv = pd.read_excel(file_location, 'First Analysis')
     if 'TotalTAT' not in df_adv.columns:
@@ -47,6 +49,45 @@ def analyze(file_location):
         df_adv = pd.concat([df_adv, tat], axis=1)
     if 'RPM' not in df_adv.columns:
         df_adv['RPM'] = df_adv['ERF_TYPE'] - 1
+
+
+    py.sign_in('dyp93', 'ax2h1t1kzc')
+
+    trace0 = Box(
+        y= df_adv['TotalTAT'][df_adv['RPM']==0],
+        name = 'RPMs',
+        boxpoints='all',
+        jitter = 0.9,
+        pointpos = 1.8,
+        marker = Marker(color = 'rgb(8, 81, 156)',
+            )
+
+    )
+
+    trace1 = Box(
+        y = df_adv['TotalTAT'][df_adv['RPM']==1]
+        name = 'ERFs',
+        boxpoints='all',
+        jitter = 0.9,
+        pointpos = 1.8,
+        marker = Marker(color = 'rgb(40, 180, 220)'
+        )
+    )
+
+    data = Data([trace0,trace1])
+    
+    layout = Layout(
+            yaxis = YAxis(
+                title = 'number of days',
+                zeroline = True,
+            ),
+            width = 1000,
+            height = 1000,
+        )
+
+    fig = Figure(data =data, layout=layout)
+    plot_url = py.plot(fig, filename = 'RPMs')
+    py.image.save_as(fig, 'files/plot.png')
 
 
     #formula: response = constant + predictor + predictor + predictor + predictor(categorical)
