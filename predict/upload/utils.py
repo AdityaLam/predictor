@@ -32,6 +32,8 @@ def timeSub(time2, time1):
     return datetime.combine(date.today(), time2) - datetime.combine(date.today(), time1)
 
 
+from plotly.graph_objs import * 
+
 def analyze(file_location):
     import pandas as pd
     import numpy as np
@@ -39,7 +41,6 @@ def analyze(file_location):
     import statsmodels.formula.api as smf
     from workdays import networkdays
     import plotly.plotly as py
-    from plotly.graph_objs import *
 
     df_adv = pd.read_excel(file_location, 'First Analysis')
     if 'TotalTAT' not in df_adv.columns:
@@ -65,7 +66,7 @@ def analyze(file_location):
     )
 
     trace1 = Box(
-        y = df_adv['TotalTAT'][df_adv['RPM']==1]
+        y = df_adv['TotalTAT'][df_adv['RPM']==1],
         name = 'ERFs',
         boxpoints='all',
         jitter = 0.9,

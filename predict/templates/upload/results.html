@@ -3,3 +3,4 @@ Based on the mutiple regression tests, we are 95% certain that this part will co
 between {{ tmin|floatformat:2 }} and {{ tmax|floatformat:2 }} days, with an average of {{ tave|floatformat:2 }} days. <br>
 If this order is an ERF, it will take between {{ emin|floatformat:2 }} and {{ emax|floatformat:2 }} more days, with an average of {{ eave|floatformat:2 }}.
  <p> <img src="{% static plot.png %}">
+The box plot on the left summarizes each data point(RPM or ERF transaction) on the right. The box makes up the middle 50% of the data, so the bottom line of the box is the 25th percentile while the top line of the box is the 75th percentile.  The line running through the box represents the median.  The top line and bottom line extending from the box represent the outliers.  Any extreme outliers go beyond this extending line.
