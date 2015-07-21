@@ -66,7 +66,7 @@ def analyze(file_location):
     )
 
     trace1 = Box(
-        y = df_adv['TotalTAT'][df_adv['RPM']==1]
+        y = df_adv['TotalTAT'][df_adv['RPM']==1],
         name = 'ERFs',
         boxpoints='all',
         jitter = 0.9,
