@@ -26,26 +26,43 @@ def netWorkHours(date1, time1, date2, time2):
             print("delta 2: " , delta2)
             return str(networkdays(date1,date2) - 2) + 'days ' + str(delta1 + delta2)
     else: 
-        return "NULL"
+        return None
     
 def timeSub(time2, time1):
     return datetime.combine(date.today(), time2) - datetime.combine(date.today(), time1)
 
 
 from plotly.graph_objs import * 
+import os
 
-def analyze(file_location):
+script_dir = os.path.dirname(__file__)
+rel_data = "../files/upload/data.csv"
+data_path = os.path.join(script_dir, rel_data)
+
+def find_count():
+    with open(data_path, 'rt') as csvfile:
+        reader = csv.reader(csvfile)
+        rpm, erf = 0,0
+        for row in reader:
+            if row[4] == '01':
+                rpm += 1
+            elif row[4] == '02':
+                erf += 1
+        return rpm, erf
+
+def analyze():
     import pandas as pd
     import numpy as np
     import statsmodels.api as sm
     import statsmodels.formula.api as smf
     from workdays import networkdays
     import plotly.plotly as py
+    import os
 
-    df_adv = pd.read_excel(file_location, 'First Analysis')
+    df_adv = pd.read_csv(data_path)
     if 'TotalTAT' not in df_adv.columns:
-        tat = df_adv.apply(lambda row: networkdays(row['SUBMIT_DATE'], row['RECEIPT_DATE']), axis=1)
-        tat = tat.applymap(lambda x: x if x >= 0 else None)
+        tat = df_adv.apply(lambda row: networkdays(pd.to_datetime(row['SUBMIT_DATE']), pd.to_datetime(row['RECEIPT_DATE'])) if row['SUBMIT_DATE'] is not None and row['RECEIPT_DATE'] is not None else None, axis=1)
+        tat = tat.apply(lambda x: x if x >= 0 else None)
         tat = pd.DataFrame(tat, columns = ['TotalTAT'])
         df_adv = pd.concat([df_adv, tat], axis=1)
     if 'RPM' not in df_adv.columns:
@@ -86,9 +103,13 @@ def analyze(file_location):
             height = 1000,
         )
 
+    script_dir = os.path.dirname(__file__)
+    rel_data = "../static/plot.png"
+    img_path = os.path.join(script_dir, rel_data)
+
+
     fig = Figure(data =data, layout=layout)
-    plot_url = py.plot(fig, filename = 'RPMs')
-    py.image.save_as(fig, 'files/plot.png')
+    py.image.save_as(fig, img_path)
 
 
     #formula: response = constant + predictor + predictor + predictor + predictor(categorical)

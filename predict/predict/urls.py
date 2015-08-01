@@ -17,9 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from upload import urls as upload_urls
 from yesterday import urls as yesterday_urls
+from form import urls as form_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^upload/', include(upload_urls)),
     url(r'^yesterday/', include(yesterday_urls)),
+    url(r'^form/', include(form_urls)),
 ]
