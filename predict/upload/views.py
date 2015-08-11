@@ -20,13 +20,13 @@ def upload(request):
             summary = analyze()
             erf, rpm = find_count()
             inter = 100
-            if rpm > 40 and erf > 30:        
+            if rpm > 40 and erf > 20:        
                 conf = summary.conf_int(.05) 
                 inter = 95
-            elif rpm > 30 and erf > 20:        
+            elif rpm > 30 and erf > 15:        
                 conf = summary.conf_int(.1) 
                 inter = 90
-            elif rpm > 20 and erf > 15:        
+            elif rpm > 20 and erf > 10:        
                 conf = summary.conf_int(.2) 
                 inter = 80
             else:        
