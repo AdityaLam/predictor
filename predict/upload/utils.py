@@ -97,7 +97,7 @@ def analyze():
     layout = Layout(
             yaxis = YAxis(
                 title = 'number of days',
-                range = [0, 60],
+                range = [0, (conf[1][0] * 2)],
                 zeroline = True,
             ),
             width = 1000,
